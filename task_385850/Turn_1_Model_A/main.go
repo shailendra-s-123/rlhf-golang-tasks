@@ -1,24 +1,20 @@
 package main
 
 import (
-	"github.com/example/worker/worker"// Replace with your actual import path
-	"time"
+	"os"
 
-	
+	"github.com/example/task/consumer"
+	"github.com/example/task/producer"
 )
 
 func main() {
-	dataChannel := make(chan int)
+	// Create a channel for communication between producer and consumer
+	numCh := make(chan int)
 
-	go worker.WorkerProcessor(dataChannel)
+	// Start the producer and consumer goroutines
+	go producer.Produce(numCh)
+	go consumer.Consume(numCh)
 
-	time.Sleep(1 * time.Second)
-	dataChannel <- 10
-	time.Sleep(1 * time.Second)
-	dataChannel <- 20
-
-	// Graceful shutdown after sending some data
-	time.Sleep(2 * time.Second)
-	close(dataChannel)
-	time.Sleep(2 * time.Second)
+	// Keep the main program running
+	select {}
 }

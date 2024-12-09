@@ -1,19 +1,20 @@
 package main
 
 import (
-	"fmt"
+	"os"
 
 	"github.com/example/worker/consumer"
 	"github.com/example/worker/producer"
 )
 
 func main() {
-	// Create a buffer channel
-	numbers := make(chan int, producer.channelBufferSize)
+	// Create a channel for communication between producer and consumer
+	numCh := make(chan int)
 
-	go producer.Produce(numbers)
-	go consumer.Consume(numbers)
+	// Start the producer and consumer goroutines
+	go producer.Produce(numCh)
+	go consumer.Consume(numCh)
 
-	fmt.Println("Main waiting...")
-	// Main waits for both producer and consumer to finish
+	// Keep the main program running
+	select {}
 }
