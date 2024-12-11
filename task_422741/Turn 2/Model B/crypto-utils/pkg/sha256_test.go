@@ -1,0 +1,14 @@
+package crypto_utils
+
+import (
+	"testing"
+)
+
+func TestSHA256Sum(t *testing.T) {
+	data := []byte("Hello, world!")
+	expectedHash := []byte{0xb9, 0x4d, 0x27, 0xb9, 0x93, 0x4d, 0x3e, 0x08, 0x41, 0x50, 0x2d, 0xa8, 0x27, 0x98, 0x39, 0x87, 0x98, 0x20, 0x07, 0xec}
+	hash := SHA256Sum(data)
+	if !bytes.Equal(hash, expectedHash) {
+		t.Errorf("expected %v, got %v", expectedHash, hash)
+	}
+}
