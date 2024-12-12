@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Benchmark Visualization</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="plot"></div>
+    <script>
+        fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                const trace = {
+                    x: data.map(result => result.Iteration),
+                    y: data.map(result => result.Time),
+                    mode: 'lines+markers',
+                    type: 'scatter'
+                };
+
+                const layout = {
+                    title: 'Benchmark Results',
+                    xaxis: { title: 'Iteration' },
+                    yaxis: { title: 'Time (ms)' }
+                };
+
+                Plotly.newPlot('plot', [trace], layout);
+            })
+            .catch(error => console.error(error));
+    </script>
+</body>
+</html>
